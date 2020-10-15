@@ -19,7 +19,26 @@ function getHBSheet () {
   return SpreadsheetApp.getActiveSpreadsheet().getSheetByName("HB");
 }
 
-const valueArray = [];
+const usedValueArray = [];
+
+const storedValues = {};
+
+function renderValues(){
+  var HBsheet = getHBSheet();
+  for (let i = 0; i < usedValueArray.length; i++){
+    var cellNum = i + 2;
+    HBsheet.getRange('A' + cellNum).setValue(usedValueArray[i]);
+    HBsheet.getRange('B' + cellNum).setValue(storedValues[usedValueArray[i]]);
+  }
+  
+  HBsheet.autoResizeColumns(1,2);
+}
+
+function updateValues(name, val){
+  usedValueArray.push(name);
+  storedValues[name] = val;
+  renderValues();
+}
 
 function generateSheet() {
   // Set Vars
@@ -54,18 +73,38 @@ function showDialog() {
 function altman(){
   
   // Vars
+  var altmanValues = ["Working Capital", 
+                "Total Assets", 
+                "Retained Earnings", 
+                "EBIT", 
+                "Market Value Of Equity", 
+                "Total Liabilities", 
+                "Sales"]
   var HBsheet = getHBSheet();
   var ui = SpreadsheetApp.getUi();
-  var currCell = HBsheet.getActiveCell()
+  var currCell = SpreadsheetApp.getActiveSpreadsheet().getSelection().getCurrentCell()
   
-  // Prompts
-  var result = ui.prompt(
-    'Let\'s get to know each other!',
-    'Please enter your name:',
-    ui.ButtonSet.OK);
-  var text = result.getResponseText();
+  altmanValues.forEach((val) => {
+    Logger.log(usedValueArray);
+    if (!usedValueArray.includes(val)){
+        var result = ui.prompt(
+        'We Need Some Values',
+        'Please enter the ' + val + ':',
+        ui.ButtonSet.OK);
+        var num = result.getResponseText();
+        updateValues(val, num);
+    }
+  });
+
+  var A = parseInt(storedValues["Working Capital"]/storedValues["Total Assets"])
+  var B = parseInt(storedValues["Retained Earnings"]/storedValues["Total Assets"])
+  var C = parseInt(storedValues["EBIT"]/storedValues["Total Assets"])
+  var D = parseInt(storedValues["Market Value Of Equity"]/storedValues["Total Liabilities"])
+  var E = parseInt(storedValues["Sales"]/storedValues["Total Assets"])
   
-  currCell.setValue(text);
+  var ZScore = (1.2*A) + (1.4*B) + (3.3*C) + (0.6*D) + (0.99*E);
+  
+  currCell.setValue(ZScore).setFontWeight('bold').setBackground('#ffcccb');
 }
 
 function execute(name) {
