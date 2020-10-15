@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      button {
+        display:block;
+        width: 50%;
+        margin: 1em auto;
+        color: #494949 !important;
+        text-transform: uppercase;
+        text-decoration: none;
+        background: #ffffff;
+        padding: 20px;
+        border: 4px solid #494949 !important;
+        transition: all 0.4s ease 0s;
+      }
+      
+      button:focus { outline: none; }
+      
+      button:hover {
+        color: #ffffff !important;
+        background: #f6b93b;
+        border-color: #f6b93b !important;
+        transition: all 0.4s ease 0s;
+      }
+  </style>
+  <script>
+    function execute(name) {
+        google.script.run.execute(name);
+        google.script.host.close();
+      }
+  </script>
+  </head>
+  <body>
+      <button onclick="execute('altman')">Altman Z-Score</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+  </body>
+</html>

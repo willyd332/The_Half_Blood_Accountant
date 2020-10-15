@@ -4,12 +4,12 @@
      alt="Snape Money" />
 </div>
 
-### A Google Sheets add on to help students with basic financial accounting
+#### A Google Sheets add on to help students with basic financial accounting
 
 
 
 
-##### Plan
+### Plan
 - App will be driven by prompts
 - User selects from a series of functions (ADA, ratios, etc...)
 - User enters the necessary info
@@ -18,7 +18,7 @@
 - As user tries more functions, the variables are maintained so they don't have to be reentered
 
 
-##### Example Story
+### Example Story
 - User creates new spreadsheet
 - User clicks "Half Blood" (HB)
 - Prompt asks user what he needs
